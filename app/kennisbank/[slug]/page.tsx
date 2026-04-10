@@ -8,7 +8,16 @@ import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
 
-interface Blog { id: number; titel: string; slug: string; beschrijving: string | null; inhoud: string | null; categorie: string | null; aangemaakt: string; bijgewerkt: string }
+interface Blog {
+  id: number
+  titel: string
+  slug: string
+  beschrijving: string | null
+  inhoud: string | null
+  categorie: string | null
+  aangemaakt: string
+  bijgewerkt: string
+}
 
 function parseMarkdown(text: string): string {
   return text
@@ -49,21 +58,29 @@ export default async function BlogPage({ params }: { params: Promise<{ slug: str
         {/* Hero */}
         <div style={{ background: '#f8f6f1', borderBottom: '1px solid rgba(10,10,10,.08)', padding: 'clamp(120px,16vh,180px) 6vw clamp(48px,6vh,80px)' }}>
           <div style={{ maxWidth: 760, margin: '0 auto' }}>
-            <Link href="/kennisbank" className="kb-back-link" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 28 }}
-              ← Kennisbank
+
+            <Link href="/kennisbank" className="kb-back-link" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 28 }}>
+              &larr; Kennisbank
             </Link>
+
             {blog.categorie && (
               <div style={{ fontFamily: 'Syne, sans-serif', fontSize: '9px', fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: '#8a8a8a', marginBottom: 16 }}>
                 {blog.categorie}
               </div>
             )}
+
             <h1 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 900, fontSize: 'clamp(2rem,4.5vw,3.8rem)', lineHeight: .95, letterSpacing: '-.04em', color: '#0a0a0a', marginBottom: 20 }}>
               {blog.titel}
             </h1>
+
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, paddingTop: 20, borderTop: '1px solid rgba(10,10,10,.08)' }}>
-              <div style={{ width: 32, height: 32, background: '#0a0a0a', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Playfair Display, serif', fontWeight: 900, fontSize: '14px', color: '#fff' }}>P</div>
+              <div style={{ width: 32, height: 32, background: '#0a0a0a', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Playfair Display, serif', fontWeight: 900, fontSize: '14px', color: '#fff', flexShrink: 0 }}>
+                P
+              </div>
               <div>
-                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: '11px', fontWeight: 700, color: '#0a0a0a', letterSpacing: '.05em' }}>Pim — Pimmerce</div>
+                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: '11px', fontWeight: 700, color: '#0a0a0a', letterSpacing: '.05em' }}>
+                  Pim &mdash; Pimmerce
+                </div>
                 <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '11px', color: '#8a8a8a', fontWeight: 300 }}>
                   {new Date(blog.aangemaakt).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })}
                 </div>
@@ -80,27 +97,40 @@ export default async function BlogPage({ params }: { params: Promise<{ slug: str
             </p>
           )}
           {blog.inhoud && (
-            <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 300, fontSize: '1rem', lineHeight: 1.85, color: '#3a3a3a' }}
+            <div className="blog-content" style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 300, fontSize: '1rem', lineHeight: 1.85, color: '#3a3a3a' }}
               dangerouslySetInnerHTML={{ __html: parseMarkdown(blog.inhoud) }} />
           )}
+
           <div style={{ marginTop: 64, paddingTop: 40, borderTop: '1px solid rgba(10,10,10,.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-            <Link href="/kennisbank" className="kb-back-link" style={{ textDecoration: 'none' }}
-              ← Terug naar kennisbank
+            <Link href="/kennisbank" className="kb-back-link" style={{ textDecoration: 'none' }}>
+              &larr; Terug naar kennisbank
             </Link>
             <Link href="/contact" className="btn-dark" style={{ padding: '10px 20px', fontSize: '11px' }}>
-              Start een project →
+              Start een project &rarr;
             </Link>
           </div>
         </div>
       </main>
+
       <style>{`
-        .blog-content h2, div h2 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.6rem; color: #0a0a0a; margin: 2.5rem 0 1rem; letter-spacing: -.03em; }
-        .blog-content h3, div h3 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.2rem; color: #0a0a0a; margin: 2rem 0 .8rem; }
-        .blog-content ul, div ul { padding-left: 1.4rem; margin: 1rem 0; }
-        .blog-content li, div li { color: #3a3a3a; line-height: 1.8; margin-bottom: .4rem; }
-        .blog-content strong, div strong { color: #0a0a0a; font-weight: 600; }
-        .blog-content em, div em { color: #3a3a3a; font-style: italic; }
+        .kb-back-link {
+          font-family: 'Syne', sans-serif;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: .15em;
+          text-transform: uppercase;
+          color: #8a8a8a;
+          transition: color .2s;
+        }
+        .kb-back-link:hover { color: #0a0a0a; }
+        .blog-content h2 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.6rem; color: #0a0a0a; margin: 2.5rem 0 1rem; letter-spacing: -.03em; }
+        .blog-content h3 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.2rem; color: #0a0a0a; margin: 2rem 0 .8rem; }
+        .blog-content ul { padding-left: 1.4rem; margin: 1rem 0; }
+        .blog-content li { color: #3a3a3a; line-height: 1.8; margin-bottom: .4rem; }
+        .blog-content strong { color: #0a0a0a; font-weight: 600; }
+        .blog-content em { font-style: italic; color: #3a3a3a; }
       `}</style>
+
       <Footer />
     </>
   )
